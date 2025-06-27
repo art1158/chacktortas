@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reportes de Ventas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="container py-5">
+    <div id="menuContainer"></div>
+
+  <h2>Reportes de Ventas</h2>
+
+  <select id="periodo" class="form-select mb-3" style="max-width: 200px;">
+    <option value="diario">Diario</option>
+    <option value="semanal">Semanal</option>
+    <option value="mensual">Mensual</option>
+  </select>
+
+  <button id="btnGenerar" class="btn btn-primary mb-3">Generar Reporte</button>
+
+  <div id="resultado"></div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user || user.rol !== "admin") {
+      window.location.href = "login.html";
+    }
+
+    const btnGenerar = document.getElementById("btnGenerar");
+    const resultado = document.getElementById("resultado");
+
+    btnGenerar.addEventListener("click", async () => {
+      resultado.textContent = "";
+
+      const periodo = document.getElementById("periodo").value;
+
+      try {
+        const res = await fetch(`/reportes?periodo=${periodo}`, {
+          headers: {
+            "x-user": user.username,
+            "x-rol": user.rol,
+          },
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          resultado.textContent = data.error || "Error al generar reporte";
+          return;
+        }
+
+        let html = `
+          <p><strong>Periodo:</strong> ${data.periodo}</p>
+          <p><strong>Total ventas:</strong> $${data.totalVentas.toFixed(2)}</p>
+          <p><strong>Cantidad de ventas:</strong> ${data.cantidadVentas}</p>
+          <h4>Detalle de ventas:</h4>
+          <ul>
+        `;
+
+        data.ventas.forEach(v => {
+          html += `<li>ID ${v.id} - ${new Date(v.fecha).toLocaleString()} - $${v.total.toFixed(2)} - Vendedor: ${v.vendedor}</li>`;
+        });
+
+        html += "</ul>";
+
+        resultado.innerHTML = html;
+      } catch {
+        resultado.textContent = "Error de conexión";
+      }
+    });
+  </script>
+  <script>
+  async function cargarMenu() {
+    const response = await fetch("menu.html");
+    const menuHtml = await response.text();
+    document.getElementById("menuContainer").innerHTML = menuHtml;
+
+    // Ahora que el menú está cargado, agregamos los listeners y ocultamos links según rol
+    const logoutBtn = document.getElementById("logoutBtn");
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("user");
+      window.location.href = "login.html";
+    });
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    if (user.rol !== "admin") {
+      const inventarioLink = document.getElementById("inventarioLink");
+      const reportesLink = document.getElementById("reportesLink");
+      if (inventarioLink) inventarioLink.style.display = "none";
+      if (reportesLink) reportesLink.style.display = "none";
+    }
+  }
+
+  cargarMenu();
+</script>
+
+
+</body>
+</html>
