@@ -10,7 +10,8 @@ const ventasRouter = require("./routes/ventas");
 const authRouter = require("./routes/auth");
 const inventarioRouter = require("./routes/inventario");
 const reportesRouter = require("./routes/reportes");
-const productosRouter = require("./routes/productos");
+const productosRoutes = require("./routes/productos");
+const productosRouter = require("./routes/productos").router;
 
 
 // Usar rutas
@@ -19,6 +20,7 @@ app.use("/ventas", ventasRouter);
 app.use("/auth", authRouter);
 app.use("/inventario", inventarioRouter);
 app.use("/reportes", reportesRouter);
+app.use("/productos", productosRoutes.router);
 app.use("/productos", productosRouter);
 
 // Ruta raíz

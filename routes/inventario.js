@@ -21,7 +21,7 @@ router.post("/agregar", authMiddleware, onlyAdmin, (req, res) => {
   const nuevoProducto = {
     id: inventario.length + 1,
     nombre,
-    cantidad,
+    stock: cantidad,
     precio
   };
 

@@ -1,0 +1,154 @@
+[
+  {
+    "id": 1,
+    "fecha": "2025-06-29T07:36:05.470Z",
+    "productos": [
+      {
+        "id": 2,
+        "cantidad": 1
+      },
+      {
+        "id": 3,
+        "cantidad": 1
+      }
+    ],
+    "total": 24.25,
+    "vendedor": "admin"
+  },
+  {
+    "id": 2,
+    "fecha": "2025-06-29T07:36:38.328Z",
+    "productos": [
+      {
+        "id": 1,
+        "cantidad": 1
+      },
+      {
+        "id": 2,
+        "cantidad": 1
+      },
+      {
+        "id": 3,
+        "cantidad": 1
+      }
+    ],
+    "total": 34.25,
+    "vendedor": "empleado"
+  },
+  {
+    "id": 3,
+    "fecha": "2025-06-29T07:36:59.513Z",
+    "productos": [
+      {
+        "id": 1,
+        "cantidad": 1
+      },
+      {
+        "id": 2,
+        "cantidad": 1
+      },
+      {
+        "id": 3,
+        "cantidad": 1
+      }
+    ],
+    "total": 34.25,
+    "vendedor": "admin"
+  },
+  {
+    "id": 4,
+    "fecha": "2025-06-30T00:57:49.916Z",
+    "productos": [
+      {
+        "id": 1,
+        "cantidad": 1
+      },
+      {
+        "id": 2,
+        "cantidad": 1
+      }
+    ],
+    "total": 25.5,
+    "vendedor": "empleado"
+  },
+  {
+    "id": 5,
+    "fecha": "2025-06-30T00:57:57.780Z",
+    "productos": [
+      {
+        "id": 1,
+        "cantidad": 1
+      },
+      {
+        "id": 3,
+        "cantidad": 1
+      }
+    ],
+    "total": 18.75,
+    "vendedor": "empleado"
+  },
+  {
+    "id": 6,
+    "fecha": "2025-06-30T00:58:15.545Z",
+    "productos": [
+      {
+        "id": 2,
+        "cantidad": 1
+      },
+      {
+        "id": 3,
+        "cantidad": 1
+      }
+    ],
+    "total": 24.25,
+    "vendedor": "admin"
+  },
+  {
+    "id": 7,
+    "fecha": "2025-06-30T01:00:41.195Z",
+    "productos": [
+      {
+        "id": 2,
+        "cantidad": 1
+      },
+      {
+        "id": 3,
+        "cantidad": 3
+      }
+    ],
+    "total": 41.75,
+    "vendedor": "empleado"
+  },
+  {
+    "id": 8,
+    "fecha": "2025-06-30T01:00:52.091Z",
+    "productos": [
+      {
+        "id": 1,
+        "cantidad": 2
+      },
+      {
+        "id": 2,
+        "cantidad": 1
+      }
+    ],
+    "total": 35.5,
+    "vendedor": "empleado"
+  },
+  {
+    "id": 9,
+    "fecha": "2025-06-30T01:01:10.479Z",
+    "productos": [
+      {
+        "id": 2,
+        "cantidad": 1
+      },
+      {
+        "id": 3,
+        "cantidad": 1
+      }
+    ],
+    "total": 24.25,
+    "vendedor": "admin"
+  }
+]

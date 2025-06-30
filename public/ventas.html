@@ -20,21 +20,6 @@
 <body class="container py-5">
   <div id="menuContainer"></div>
 
-  <h2>Agregar Nuevo Producto</h2>
-  <form id="productoForm" class="mb-4">
-    <div class="mb-3">
-      <label for="productoNombre" class="form-label">Nombre del producto</label>
-      <input type="text" id="productoNombre" class="form-control" required />
-    </div>
-    <div class="mb-3">
-      <label for="productoPrecio" class="form-label">Precio</label>
-      <input type="number" id="productoPrecio" class="form-control" required min="0" step="0.01" />
-    </div>
-    <button class="btn btn-success" type="submit">Agregar Producto</button>
-  </form>
-
-  <hr />
-
   <h2>Registrar Pedido</h2>
   <form id="pedidoForm">
     <div class="mb-3">
@@ -86,54 +71,9 @@
       window.location.href = "login.html";
     }
 
-    // --- Agregar producto ---
-
-    const productoForm = document.getElementById("productoForm");
-    const productoNombre = document.getElementById("productoNombre");
-    const productoPrecio = document.getElementById("productoPrecio");
-    const mensajeDiv = document.getElementById("mensaje");
-
-    productoForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      mensajeDiv.textContent = "";
-
-      const nombre = productoNombre.value.trim();
-      const precio = parseFloat(productoPrecio.value);
-
-      try {
-        const res = await fetch("/productos/agregar", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-user": user.username,
-            "x-rol": user.rol,
-          },
-          body: JSON.stringify({ nombre, precio }),
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          mensajeDiv.textContent = data.error || "Error al agregar producto";
-          mensajeDiv.className = "text-danger mt-3";
-          return;
-        }
-
-        mensajeDiv.textContent = "Producto agregado: " + data.producto.nombre;
-        mensajeDiv.className = "text-success mt-3";
-
-        productoForm.reset();
-        cargarProductos(); // recarga productos en la lista del pedido
-      } catch {
-        mensajeDiv.textContent = "Error de conexión";
-        mensajeDiv.className = "text-danger mt-3";
-      }
-    });
-
-    // --- Cargar productos para pedido ---
-
     const productosLista = document.getElementById("productosLista");
     const totalVenta = document.getElementById("totalVenta");
+    const mensajeDiv = document.getElementById("mensaje");
 
     let productos = [];
 
@@ -165,17 +105,13 @@
           productosLista.appendChild(div);
         });
 
-        // Agregar eventos para checkbox y cantidades
         agregarEventosProductos();
-
         calcularTotal();
 
       } catch {
         productosLista.innerHTML = "<p class='text-danger'>Error al cargar productos</p>";
       }
     }
-
-    // --- Eventos para los productos seleccionados ---
 
     function agregarEventosProductos() {
       const checkboxes = productosLista.querySelectorAll(".producto-checkbox");
@@ -199,8 +135,6 @@
       });
     }
 
-    // --- Calcular total ---
-
     function calcularTotal() {
       let total = 0;
       const checkboxes = productosLista.querySelectorAll(".producto-checkbox");
@@ -216,8 +150,6 @@
       totalVenta.textContent = total.toFixed(2);
     }
 
-    // --- Enviar pedido ---
-
     const pedidoForm = document.getElementById("pedidoForm");
 
     pedidoForm.addEventListener("submit", async (e) => {
@@ -232,20 +164,15 @@
         return;
       }
 
-      // Armar array de productos seleccionados con cantidades
       const seleccionados = [];
       const checkboxes = productosLista.querySelectorAll(".producto-checkbox");
       checkboxes.forEach(cb => {
         if (cb.checked) {
           const id = parseInt(cb.dataset.id);
-          const producto = productos.find(p => p.id === id);
           const cantidadInput = cb.parentElement.parentElement.querySelector(".producto-cantidad");
           const cantidad = parseInt(cantidadInput.value) || 1;
 
-          // Agregamos producto la cantidad de veces (o guardamos cantidad para backend)
-          for (let i = 0; i < cantidad; i++) {
-            seleccionados.push(producto.nombre);
-          }
+          seleccionados.push({ id, cantidad });
         }
       });
 
@@ -255,7 +182,6 @@
         return;
       }
 
-      // Enviar venta al backend
       try {
         const res = await fetch("/ventas", {
           method: "POST",
